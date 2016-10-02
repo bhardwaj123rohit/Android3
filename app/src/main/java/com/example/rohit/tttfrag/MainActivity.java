@@ -71,6 +71,12 @@ public class MainActivity extends AppCompatActivity implements detailsFragment.O
 
 
     }
+    public  void frndDetails(View v){
+        Intent Frnd = new Intent(this,StoreFrndDetail.class);
+        startActivityForResult(Frnd,1);
+
+    }
+
     public void saveMyName(View v){
         Log.v("SaveMyname","Called");
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
@@ -96,5 +102,6 @@ public class MainActivity extends AppCompatActivity implements detailsFragment.O
         }
 
     }
+
 
 }

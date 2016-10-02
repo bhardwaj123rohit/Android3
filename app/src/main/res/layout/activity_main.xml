@@ -21,9 +21,8 @@
         android:layout_marginTop="30dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true" />
+        android:layout_toLeftOf="@+id/addFriend"
+        android:layout_toStartOf="@+id/addFriend" />
 
     <Button
         android:text="Add Friend"
@@ -73,5 +72,17 @@
         android:layout_marginEnd="12dp"
         android:visibility="gone"
         android:layout_alignParentTop="true" />
+
+    <Button
+        android:text="SaveFrndDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addFriend"
+        android:layout_toRightOf="@+id/frag1"
+        android:layout_toEndOf="@+id/frag1"
+        android:layout_marginTop="22dp"
+        android:id="@+id/button4"
+        android:onClick="frndDetails"
+        />
 
 </RelativeLayout>

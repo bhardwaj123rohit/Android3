@@ -15,15 +15,14 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
 
-
-        <uses-feature android:name="android.hardware.camera"
+        <uses-feature
+            android:name="android.hardware.camera"
             android:required="true" />
 
         <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -32,7 +31,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewFriend"></activity>
+        <activity android:name=".NewFriend" />
+        <activity android:name=".StoreFrndDetail"></activity>
     </application>
 
 </manifest>
