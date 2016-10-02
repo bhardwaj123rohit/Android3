@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        System.out.println("Quote inside database :"+det.getText());
         values.put(KEY_TEXT, det.getText()); // Quote text
 
         // Inserting Row
@@ -92,7 +92,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         List<FrndDetail> fds = new ArrayList<FrndDetail>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_QUOTES;
-
+        Log.v("GHANTA","Begins");
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -103,6 +103,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 fd.set_id(Integer.parseInt(cursor.getString(0)));
                 fd.setText(cursor.getString(1));
                 // Adding contact to list
+                Log.v("GHANTA",cursor.getString(1));
                 fds.add(fd);
             } while (cursor.moveToNext());
         }

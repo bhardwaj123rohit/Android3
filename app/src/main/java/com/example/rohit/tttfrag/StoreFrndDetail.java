@@ -3,6 +3,7 @@ package com.example.rohit.tttfrag;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -37,9 +38,12 @@ public class StoreFrndDetail extends AppCompatActivity {
         DatabaseHandler dh = new DatabaseHandler(this);
         List<FrndDetail> ls = dh.getAllQuotes();
         String ns = new String();
+        Log.v("List Size",Integer.toString(ls.size()));
         for(int i = 0; i < ls.size(); i++) {
-            ns.concat(ls.get(i).get_id()+"  "+ls.get(i).getText());
+            Log.v("Pappu",ls.get(i).getText());
+            ns = ns.concat(ls.get(i).get_id()+"  "+ls.get(i).getText());
         }
+        Log.v("Database: ",ns);
         ((TextView)findViewById(R.id.textView4)).setText(ns);
     }
 }
