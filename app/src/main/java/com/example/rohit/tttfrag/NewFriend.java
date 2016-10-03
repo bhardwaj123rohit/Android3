@@ -2,6 +2,7 @@ package com.example.rohit.tttfrag;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -10,8 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,11 +52,12 @@ public class NewFriend extends AppCompatActivity {
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
+              /*  Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.rohit.tttfrag.fileprovider",
                         photoFile);
+                */
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mCurrentPhotoPath);
-                Log.v("Intent Pic Sent",photoURI.toString());
+                //Log.v("Intent Pic Sent",photoURI.toString());
                 Log.v("PhotoPath",mCurrentPhotoPath);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
@@ -62,9 +68,8 @@ public class NewFriend extends AppCompatActivity {
     }
     public void saveFrnd(View v){
         Log.v("Friend Saved","Yes");
-        Intent data = new Intent();
-        data.putExtra("src",mCurrentPhotoPath);
-        setResult(RESULT_OK,data);
+        finish();
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -74,8 +79,37 @@ public class NewFriend extends AppCompatActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             Log.v("BitMap","Yes");
-            //mImageView.setImageBitmap(imageBitmap);
+
+            String root = getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
+            File myDir = new File(root + "/saved_images");
+            myDir.mkdirs();
+
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+            File destination = new File(myDir,System.currentTimeMillis() + ".jpg");
+
+            FileOutputStream fo;
+            try {
+                destination.createNewFile();
+                fo = new FileOutputStream(destination);
+                fo.write(bytes.toByteArray());
+                fo.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+                Log.v("ImagFiles Stored", destination.getPath());
+            Intent newData = new Intent();
+            newData.putExtra("src",destination.getPath());
+            setResult(RESULT_OK,newData);
+
+                ImageView mImageView = (ImageView) findViewById(R.id.imageView);
+                //mImageView.getDrawable();
+                mImageView.setImageBitmap(imageBitmap);
         }
+
     }
 
     private File createImageFile() throws IOException {

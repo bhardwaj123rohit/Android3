@@ -3,16 +3,20 @@ package com.example.rohit.tttfrag;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rohit.tttfrag.friends.FriendContent;
 
+import java.io.File;
 import java.io.FileOutputStream;
 
 
@@ -65,7 +69,31 @@ public class MainActivity extends AppCompatActivity implements detailsFragment.O
     @Override
     protected void onActivityResult(int requestCode,int resultCode,Intent data){
         Log.v("Picture Taken", Integer.toString(resultCode));
-        FriendContent.addItem(FriendContent.createDummyItem2("R.id.friends"));
+        Bundle extras = data.getExtras();
+        Log.v("Image path received",extras.get("src").toString());
+        File imgFile = new  File(extras.get("src").toString());
+
+        if(imgFile.exists()){
+
+            Log.v("Image File","exitst");
+            Bitmap myBitmap = BitmapFactory.decodeFile((extras.get("src").toString()));
+
+            ImageView myImage = (ImageView) findViewById(R.id.imageView2);
+
+            myImage.setImageBitmap(myBitmap);
+
+        }
+        else {
+            Log.v("Image File","Does not exitst");
+            Bitmap myBitmap = BitmapFactory.decodeFile((extras.get("src").toString()));
+
+            ImageView myImage = (ImageView) findViewById(R.id.imageView2);
+
+            myImage.setImageBitmap(myBitmap);
+
+        }
+        //ImageView)findViewById(R.id.imageView2).set
+        //FriendContent.addItem(FriendContent.createDummyItem2("R.id.friends"));
 
         //getSupportFragmentManager().findFragmentById(R.id.frag1).onCreateView();
 
