@@ -74,7 +74,7 @@
         android:layout_alignParentTop="true" />
 
     <Button
-        android:text="Save Friends' Details"
+        android:text="Save Friends Details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/addFriend"

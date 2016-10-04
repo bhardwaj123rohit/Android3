@@ -11,7 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -21,19 +23,46 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static android.R.attr.duration;
 import static android.os.Environment.getExternalStoragePublicDirectory;
 
 public class NewFriend extends AppCompatActivity {
 
     static int REQUEST_IMAGE_CAPTURE = 1;
     String mCurrentPhotoPath;
-
+    Intent newData;
+    String imageSrc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_friend);
+        if (savedInstanceState != null) {
+
+
+            Bitmap myBitmap = BitmapFactory.decodeFile(savedInstanceState.getString("imgsrc"));
+
+            ImageView myImage = (ImageView) findViewById(R.id.imageView);
+
+            myImage.setImageBitmap(myBitmap);
+            newData = new Intent();
+            newData.putExtra("uname",((EditText)findViewById(R.id.editText)).getText().toString());
+            setResult(RESULT_OK,newData);
+            newData.putExtra("src",savedInstanceState.getString("imgsrc"));
+            imageSrc = savedInstanceState.getString("imgsrc");
+            setResult(RESULT_OK,newData);
+
+        }
     }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save the user's current game state
+        savedInstanceState.putString("imgsrc",imageSrc );
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
 
     public void picPlease(View v){
 
@@ -67,8 +96,20 @@ public class NewFriend extends AppCompatActivity {
 
     }
     public void saveFrnd(View v){
-        Log.v("Friend Saved","Yes");
-        finish();
+
+        if(newData == null){
+            Toast.makeText(this, "Please take Picture", Toast.LENGTH_SHORT).show();
+        }else if(((EditText)findViewById(R.id.editText)).getText().toString().isEmpty())
+        {
+            Toast.makeText(this, "Please Enter a name ", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            newData.putExtra("uname",((EditText)findViewById(R.id.editText)).getText().toString());
+            setResult(RESULT_OK,newData);
+            Log.v("Friend Saved","Yes");
+            finish();
+
+        }
 
     }
     @Override
@@ -101,12 +142,11 @@ public class NewFriend extends AppCompatActivity {
                 e.printStackTrace();
             }
                 Log.v("ImagFiles Stored", destination.getPath());
-            Intent newData = new Intent();
+            newData = new Intent();
             newData.putExtra("src",destination.getPath());
-            setResult(RESULT_OK,newData);
+            imageSrc=destination.getPath();
 
                 ImageView mImageView = (ImageView) findViewById(R.id.imageView);
-                //mImageView.getDrawable();
                 mImageView.setImageBitmap(imageBitmap);
         }
 

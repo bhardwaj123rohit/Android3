@@ -69,35 +69,41 @@ public class MainActivity extends AppCompatActivity implements detailsFragment.O
     @Override
     protected void onActivityResult(int requestCode,int resultCode,Intent data){
         Log.v("Picture Taken", Integer.toString(resultCode));
-        Bundle extras = data.getExtras();
-        Log.v("Image path received",extras.get("src").toString());
-        File imgFile = new  File(extras.get("src").toString());
-
-        if(imgFile.exists()){
-
-            Log.v("Image File","exitst");
-            Bitmap myBitmap = BitmapFactory.decodeFile((extras.get("src").toString()));
-
-            ImageView myImage = (ImageView) findViewById(R.id.imageView2);
-
-            myImage.setImageBitmap(myBitmap);
+        if(resultCode==0){
 
         }
-        else {
-            Log.v("Image File","Does not exitst");
-            Bitmap myBitmap = BitmapFactory.decodeFile((extras.get("src").toString()));
+            else {
 
-            ImageView myImage = (ImageView) findViewById(R.id.imageView2);
 
-            myImage.setImageBitmap(myBitmap);
+            Bundle extras = data.getExtras();
+            Log.v("Image path received", extras.get("src").toString());
+            File imgFile = new File(extras.get("src").toString());
+
+            if (imgFile.exists()) {
+
+                Log.v("Image File", "exitst");
+
+                Bitmap myBitmap = BitmapFactory.decodeFile((extras.get("src").toString()));
+
+                ImageView myImage = (ImageView) findViewById(R.id.imageView2);
+
+                myImage.setImageBitmap(myBitmap);
+
+            } else {
+                Log.v("Image File", "Does not exitst");
+                Bitmap myBitmap = BitmapFactory.decodeFile((extras.get("src").toString()));
+
+                ImageView myImage = (ImageView) findViewById(R.id.imageView2);
+
+                myImage.setImageBitmap(myBitmap);
+
+            }
+            //ImageView)findViewById(R.id.imageView2).set
+            //FriendContent.addItem(FriendContent.createDummyItem2("R.id.friends"));
+
+            //getSupportFragmentManager().findFragmentById(R.id.frag1).onCreateView();
 
         }
-        //ImageView)findViewById(R.id.imageView2).set
-        //FriendContent.addItem(FriendContent.createDummyItem2("R.id.friends"));
-
-        //getSupportFragmentManager().findFragmentById(R.id.frag1).onCreateView();
-
-
     }
     public  void frndDetails(View v){
         Intent Frnd = new Intent(this,StoreFrndDetail.class);

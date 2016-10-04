@@ -1,6 +1,7 @@
 package com.example.rohit.tttfrag;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,5 +46,13 @@ public class StoreFrndDetail extends AppCompatActivity {
         }
         Log.v("Database: ",ns);
         ((TextView)findViewById(R.id.textView4)).setText(ns);
+    }
+
+    public void reset(View v){
+        DatabaseHandler dh = new DatabaseHandler(this);
+        SQLiteDatabase db = dh.getWritableDatabase();
+        dh.onReset(db);
+        Toast.makeText(this, "Data Deleted", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

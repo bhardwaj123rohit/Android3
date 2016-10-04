@@ -55,7 +55,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM " + TABLE_QUOTES);
 
         // Create tables again
-        //onCreate(db);
+        onCreate(db);
     }
 
     // Adding new contact
